@@ -1,5 +1,5 @@
 {
-    "server" : "https://ss-us-qss.precima.internal/hdr",
+    "server" : "https://ss-us-qss.prec.internal/hdr",
     "replaceAppID" : "08b997f5-la97-4be0-aa87-8b4c179f33ca",
     "name" : "Jumbo_new_deploy_temp",
     "headers" : {
