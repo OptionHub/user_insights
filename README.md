@@ -63,6 +63,8 @@ Before continuing, make sure that you have these tools installed:
 
 ## Changelog
 
+### **1.0.4alpha - CI/CD pipeline enabled**
+- _auto_deploy/autodeploy.py will work with Bamboo auto build.
 
 ### **1.0.2 - Hide fields, reveal master items in Hub**
 - Hide all fields except master items.
