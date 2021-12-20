@@ -1,7 +1,7 @@
 {
     "server" : "https://ss-us-qss.prec.internal/hdr",
     "replaceAppID" : "08b997f5-la97-4be0-aa87-8b4c179f33ca",
-    "name" : "Jumbo_new_deploy_temp",
+    "name" : "Jumb_new_deploy_temp",
     "headers" : {
         "X-Qlik-Xrfkey" : "123456789ABCDEFG",
         "hdr-usr" : "PREC\\li",
