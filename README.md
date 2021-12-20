@@ -24,8 +24,9 @@
 
 ## Reload and distribution schedule
 | Client    | Reload time (daily)  | Distribution time (daily) |
-|-----------|:---------------:| -------:|
+|-----------|:---------------:|:-------:|
 | JBO     | 2:00 am ET  | 2:30 am ET  |
+| CVS     | 00:30, 06:30, 12:30, 18:30 ET | N/A |
 
 
 <br><br>
