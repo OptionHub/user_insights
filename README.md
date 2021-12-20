@@ -21,3 +21,28 @@
 <br><br>
 ***
 ## Reload and distribution schedule
+
+<br><br>
+***
+## IDE
+Before continuing, make sure that you have these tools installed:
+- [Sublime Text Editor](https://www.sublimetext.com/)
+- [Visual Studio Code](https://code.visualstudio.com/)(*optional*)
+- [Visual Studio - Python extension](https://code.visualstudio.com/)
+<br><br>
+***
+
+## Usage
+
+<br><br>
+***
+
+## Deployment
+1. make sure the pyModule in the server is up-to-date, double check the codes here: https://bitbucket.com/
+2. CI/CD pipeline is in place, the deployment on dev-us-qss is fully automated.  New commits on `master` will be automatically copied over to `DEV-US-QSS` and execute `autodeploy.py` script to upload qvf, replace target app, reload replaced app and delete imported app.
+3. Import the .qvf files to QMC.
+4. Rename the files with the client acronym, e.g. `Morri_User_Insights` or `Jm_User_Insights`. Be careful to not replace the existing app, if it's case, add another suffix to appname.
+5. 
+
+<br><br>
+***
