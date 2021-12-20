@@ -1,0 +1,30 @@
+//-------------------------------------------------------------------------
+//Identify the Server Environment
+//-------------------------------------------------------------------------
+
+$(Must_Include=lib://QSFramework\_serverconfig\settings.qvs); //to get vG_Environment
+trace --> get one variable from the settings qvs: vG_Environment = $(vG_Environment); //check the vG_Environment
+
+//-------------------------------------------------------------------------
+//Start application reload Process
+//-------------------------------------------------------------------------
+
+//$(Must_Include=lib://QSFramework\_library\comm_component\comm_components.qvs);
+
+//-------------------------------------------------------------------------
+//Option to override the value for the variable of vG_ClientName that defined in the comm_component.qvs.
+//If the application document name follow the standard naming convention, this section can be removed.
+//-------------------------------------------------------------------------
+//let vG_ClientName = lower(subfield(documenttitle(),'_',-1)); //or override as hard code like 'lcl';
+//let vG_ClientFolder = if(vG_Environment = 'PROD' or vG_ClientName = 'Common', '', vG_ClientName & '\');
+
+LET vG_ClientName = Lower(Subfield(documenttitle(),'_',1));
+SET vG_UserInsightsAppFolder = 'lib://Pre_Suite_User_Insights';
+LET vG_AppScriptFolder = '$(vG_UserInsightsAppFolder)\_QSScripts\';
+
+$(Must_Include=$(vG_UserInsightsAppFolder)\_ClientConfig\$(vG_ClientName)\report_config_$(vG_ClientName).qvs);
+
+//-------------------------------------------------------------------------
+//Load Report specific files
+//-------------------------------------------------------------------------
+$(Must_Include=$(vG_AppScriptFolder)[0]QS_Backend_Script_Standard_ScriptFile_Main.qvs);

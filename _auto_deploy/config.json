@@ -1,0 +1,11 @@
+{
+    "server" : "https://ss-us-qss.precima.internal/hdr",
+    "replaceAppID" : "08b997f5-la97-4be0-aa87-8b4c179f33ca",
+    "name" : "Jumbo_new_deploy_temp",
+    "headers" : {
+        "X-Qlik-Xrfkey" : "123456789ABCDEFG",
+        "hdr-usr" : "PREC\\li",
+        "Content-Type" : "application/vnd.qlik.sense.app",
+        "cache-control" : "no-cache"
+    }
+}

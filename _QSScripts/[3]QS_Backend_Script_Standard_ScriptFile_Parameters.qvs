@@ -1,0 +1,42 @@
+//Calendar Variables
+LET vLast4Hours = Num(Timestamp(Now(1)-1/6)); //4 hours = 1 day/24 hours (per day) * 4 hours = 1/6 Day
+LET vLast24Hours = Num(Timestamp(Now(1)-1));
+LET vLast72Hours = Num(Timestamp(Now(1)-3));
+LET vLast7Days = Num(Timestamp(Now(1)-3));
+LET vLastStartDate = null();
+
+//[IMPORTANT] set prefix for master items to be only visible to Hub user.
+SET vMasterItemPrefix = 'MasterItem_';
+
+//Script Variables
+LET appReloadTime = Now();
+SET vDomain = '%$(vClientDomainName).precima.io%';
+
+IF vG_Environment = 'DEV' THEN
+    SET vClientAuthPrecimaAPI = 'https://puma.dev.precima.io/api';
+ELSE
+    SET vClientAuthPrecimaAPI = 'https://puma.precima.io/api';
+END IF
+
+//PUMA2 api endpoints
+SET vAuthUsersExportEndpoint = '/users/export/file';
+SET vAuthUsergroupsEndpoint = '/user-groups-precima-services';
+
+//Heap path Variables
+SET vPathPromo = '/main/promo*';
+SET vPathInsights = '/main/insights-portal*';
+SET vPathDataPortal = '/main/data-portal*';
+SET vPathAssortment = '/main/assortment*';
+SET vPathAA = '/dashboard/advanced-analytics*';
+SET vPathCPL = '/dashboard/custom-product-list*';
+SET vPathHub = '/precima-hub*';
+
+SET vGroupPrefixPrecima = 'Precima_%';
+SET vGroupPrefixClient = '$(vClientPrefix)_%';
+SET vGroupPrefixRetailer = '$(vClientPrefix)_Users*';
+SET vGroupPrefixCPG = '$(vClientPrefix)_VUsers*';
+
+LET vCustomgroup_clause_length = if(vC_loop_customgroup, '=0', '>0');
+LET vCustomgroup_clause_null = if(vC_loop_customgroup, 'is null', 'is not null');
+
+LET vG_Environment_Capitalized = Capitalize(vG_Environment);

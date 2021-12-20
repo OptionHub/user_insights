@@ -1,0 +1,36 @@
+//==============================================================================
+
+//Define Source Table(s)
+//==============================================================================
+//(Mandatory) Pre-defined source table location & name
+//==============================================================================
+//Note: Use $(vSourceTable_XXX) to replace the source table name in the Script
+
+//Uncomment for full reload
+LET vCommentString = '//';
+
+//Uncomment when limiting article load
+//LET vCommentString = ' ';
+
+//connection
+SET vConnectionHeap = 'HeapSQL';
+SET vCoonectionADRepo = 'Common';
+
+//schema
+LET vHeapGoSchema = 'heap."precima_go_' & vG_ClientName & '_prod"';
+LEt vHeapHubSchema = 'heap."precima_hub_' & vG_ClientName & '_prod"';
+
+//tables
+SET vRepoUserGroupMaster = 'repo."public"."ri_user_usergroup_master"';
+
+LET vSourceTable_DataFile_Path = '$(vG_UserInsightsAppFolder)\_DataFiles\';
+LET vSourceTable_MasterItem_Dim = vSourceTable_DataFile_Path & 'MasterItem_Dim.xlsx(ooxml, embedded labels, table is MasterItem_Dim)';
+
+//Configurable tables
+IF vIsInsightsUsageData THEN
+    LET vSourceTable_ProdMaster_LoopDeptCtrl = vC_ProdMaster_LoopDeptCtrl;
+    LET vSourceTable_ProdMaster_VendorPlusCtrl = vC_ProdMaster_VendorPlusCtrl;
+END IF
+
+//puma api rest connection
+SET vConnectionPUMA_REST = 'REST_PUMA2_Users_Groups';
