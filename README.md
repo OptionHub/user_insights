@@ -20,3 +20,4 @@
 - User insights is an internal user monitoring application that provide visualization in a self-serve hub, it reports user activities based on data provider - [Heap Analytics](https://heapanalytics.com/app/report).
 <br><br>
 ***
+## Reload and distribution schedule
