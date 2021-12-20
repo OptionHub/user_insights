@@ -7,3 +7,8 @@
 - [Description](#description)
 - [Reload-and-distribution-schedule](#reload-and-distribution-schedule)
 - [IDE](#IDE)
+- [Usage](#usage)
+- [Deployment](#deployment)
+- [Distribution](#distribution)
+- [Hub-Customization](#Hub-customization)
+- [Changelog](#changelog)
