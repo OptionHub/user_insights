@@ -23,6 +23,10 @@
 ***
 
 ## Reload and distribution schedule
+| Client    | Reload time (daily)  | Distribution time (daily) |
+|-----------|:---------------:| -------:|
+| JBO     | 2:00 am ET  | 2:30 am ET  |
+
 
 <br><br>
 ***
