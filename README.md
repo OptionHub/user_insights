@@ -64,11 +64,11 @@ Before continuing, make sure that you have these tools installed:
 ## Changelog
 
 
-## **1.0.2 - Hide fields, reveal master items in Hub**
+### **1.0.2 - Hide fields, reveal master items in Hub**
 - Hide all fields except master items.
 - [username] fields has to be untagged $hidden after renaming master item fields and hide other fields.
 
-## **1.0.0 - MVP**
+### **1.0.0 - MVP**
 - Initial Release
 
 <br><br>
