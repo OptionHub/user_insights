@@ -1,0 +1,19 @@
+SUB HideFields
+
+    FOR HideFields_t = 0 to NoOfTables() - 1
+        FOR HideFields_f = 1 to NoOfFields(TableName($(HideFields_t)))
+            LET HideFields_FieldName = FieldName($(HideFields_f), TableName($(HideFields_t)));
+            LET HideFields_Flag = Match('$(HideFields_FieldName)', $(HideFields_FieldList));
+            IF ($(HideFields_Flag) = 0) THEN
+                Tag Field [$(HideFields_FieldName)] with '$hidden';
+            END IF
+        NEXT HideFields_f
+    NEXT HideFields_t
+
+    SET HideFields_FieldList =;
+    SET HideFields_t =;
+    SET HideFields_f =;
+    SET HideFields_FieldName =;
+    SET HideFields_Flag =;
+
+END SUB

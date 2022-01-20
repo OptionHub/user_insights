@@ -1,0 +1,74 @@
+Trace ==> Loading Section Access ... <==;
+
+IF Index(DocumentName(), '_Customer Behavior') = 0 THEN
+    SECTION ACCESS;
+
+    T_SELLINGVENDOR2SEETOTAL:
+    LOAD
+        SELLINGVENDOR2SEETOTAL
+    FROM [lib://QSAppSource/$(vG_WorkStream)\$(vG_Sub_WorkStream)\_ClientConfig\$(vG_ClientName)\SELLINGVENDOR2SEETOTAL.csv]
+    (txt, utf8, embedded labels, delimiter is '\t', msq);
+
+    AccessTable:
+    LOAD
+        $(vC_SectionAccessLoad)
+    ;
+
+    Concatenate (AccessTable)
+    LOAD
+        Upper(ACCESS_TYPE) as ACCESS,
+        Upper(ACCESS_GROUP) as GROUP,
+        Upper(USER_ID) as USERID,
+        Subfield(Upper(REDUCTION), '$(vC_SEC_Delimiter)', 1) & '$(vC_SEC_Delimiter)' & '$(vC_SEC_Total)' as REDUCTION,
+        0 as TRAINING
+    FROM [lib://QVDRepository/Hub/$(vG_ClientFolder)Lookup/$(vC_Section_Access_qvd)](qvd)
+    WHERE Exists(SELLINGVENDOR2SEETOTAL, Upper(SELLING_VENDOR));
+
+    Concatenate (AccessTable)
+    LOAD
+        'USER' as ACCESS,
+        Replace('$(vC_SEC_Group)', '_VENDOR_', SELLINGVENDOR2SEETOTAL) as GROUP,
+        '*' as USERID,
+        '$(vC_SEC_Total)' & '$(vC_SEC_Delimiter)' & '$(vC_SEC_Total)' as REDUCTION,
+        0 as TRAINING
+    RESIDENT T_SELLINGVENDOR2SEETOTAL;
+
+    Concatenate (AccessTable)
+    LOAD
+        'ADMIN' as ACCESS,
+        Upper('$(vC_Client)') & '_VUSER_TRAINING' as GROUP,
+        '*' as USERID,
+        Null() as REDUCTION,
+        1 as TRAINING
+    AutoGenerate 1;
+
+    SECTION APPLICATION;
+
+ELSE
+    AccessTable:
+    LOAD
+        // SELLING_VENDOR
+        Upper(access_type) as ACCESS,
+        Upper(access_group) as GROUP,
+        Upper(user_id) as USERID,
+        Upper(reduction) as REDUCTION,
+        0 as TRAINING
+        // '$(vC_SectionAccessLoad)'
+        Upper(report_type_cd) as REPORTTYPE,
+        Upper(report_type_desc) as REPORTTYPEDESC
+        // initial
+    FROM [lib://QVDRepository/Hub\$(vG_ClientFolder)Lookup\$(vC_Section_Access_qvd)](qvd)
+    WHERE Upper(access_group) <> 'LCL_VUSER_TRAINING';
+
+    Concatenate (AccessTable)
+    LOAD
+        'ADMIN' as ACCESS,
+        Upper('$(vC_Client)') & '_VUSER_TRAINING' as GROUP,
+        '*' as USERID,
+        Null() as REDUCTION,
+        1 as TRAINING
+    AutoGenerate 1;
+
+END IF
+
+Trace ==> Finished loading Section Access. <==;

@@ -1,0 +1,22 @@
+Trace ==> Start with QS_Backend_Script_Standard_ScriptFile_SourceTables.qvs <==;
+//==============================================================================
+//Define WorkStream Fact Source Table(s)
+//==============================================================================
+LET vSourceTable_WorkStream_Path = 'lib://QVDRepository\$(vG_WorkStream)\' & Upper(vG_ClientFolder) & '$(vG_Sub_WorkStream)';
+//LET vSourceTable_Transaction_Segment = vSourceTable_WorkStream_Path & 'Transaction_Segment_Fact\*.qvd(qvd)';
+
+//==============================================================================
+//Define WorkStream Lookup tables
+//==============================================================================
+LET vSourceTable_Fact = '$(vSourceTable_WorkStream_Path)\$(vC_FactTableName)(qvd)';
+
+//==============================================================================
+//Define Shared Lookup tables
+//==============================================================================
+LET vSourceTable_Shared_Path = 'lib://QVDRepository\Shared\' & Upper(vG_ClientFolder);
+//LET vSourceTable_CalendarLookup = vSourceTable_Shared_Path & 'Lookup\calendar_dim_fiscal.qvd(qvd)';
+
+//==============================================================================
+//Define Data Files tables
+//==============================================================================
+//LET vSourceTable_DataFile_Path = 'lib://QSAppsSource\' & vG_WorkStream & '\_DataFile\' & vG_Sub_Report & vG_ClientFolder;

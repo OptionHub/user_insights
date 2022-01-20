@@ -1,0 +1,24 @@
+//$tab script - <Section Access>
+trace ==> Start with [0_1]QS_Backend_Script_Standard_ScriptFile_SectionAccess.qvs <==;
+
+T1:
+Load distinct
+    access_type,
+    access_group,
+    user_id,
+    reduction
+from $(vSourceTable_Lookup_SectionAccess);
+
+SECTION ACCESS;
+Load
+    access_type as ACCESS,
+    access_group as GROUP,
+    user_id as USERID,
+    reduction as REDUCTION
+Resident T1;
+
+SECTION APPLICATION;
+
+Drop table T1;
+
+trace ==> End with [0_1]QS_Backend_Script_Standard_ScriptFile_SectionAccess.qvs <==;
