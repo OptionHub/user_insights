@@ -2,7 +2,7 @@
 LET vLast4Hours = Num(Timestamp(Now(1)-1/6)); //4 hours = 1 day/24 hours (per day) * 4 hours = 1/6 Day
 LET vLast24Hours = Num(Timestamp(Now(1)-1));
 LET vLast72Hours = Num(Timestamp(Now(1)-3));
-LET vLast7Days = Num(Timestamp(Now(1)-3));
+LET vLast7Days = Num(Timestamp(Now(1)-7));
 LET vLastStartDate = null();
 
 //[IMPORTANT] set prefix for master items to be only visible to Hub user.

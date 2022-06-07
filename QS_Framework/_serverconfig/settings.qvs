@@ -1,0 +1,13 @@
+LET vG_Environment = 'DEV';
+//============================================================================
+//set value to 1 will load QVD control table from Excel/CSV regardless vG_Environment
+//============================================================================
+LET vG_IsQVDControlOverride = 1;
+
+//============================================================================
+//set value to 1 will load QVD control table from Excel instead of CSV file when
+//on local or development environment.  On production server, always load from CSV file
+//or database table if vG_IsQVDControlOverride = 0
+//============================================================================
+LET vG_QVDControlFromExcel = 1;
+LET vG_QVDControlCSVDelimiter = chr(39) & '~' & chr(39);

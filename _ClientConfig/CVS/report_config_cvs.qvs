@@ -1,0 +1,48 @@
+//****************************************************************************
+//Below are formats defined to replace system format at the script execution. Leave it in client config for future extension.
+//No need to update
+//****************************************************************************
+SET ThousandSep = ',';
+SET DecimalSep = '.';
+SET MoneyThousandSep = ',';
+SET MoneyDecimalSep = '.';
+SET MoneyFormat = '$#,##0.00;-$#,##0.00';
+SET TimeFormat = 'h:mm:ss TT';
+SET DateFormat = 'YYYY-MM-DD';
+SET TimestampFormat = 'YYYY-MM-DD h:mm:ss[.fff] TT';
+SET FirstWeekDay = 6;
+SET BrokenWeeks = 1;
+SET ReferenceDay = 0;
+SET FirstMonthOfYear = 1;
+SET CollationLocale = 'en-US';
+SET CreateSearchIndexOnReload = 1;
+SET MonthNames = 'Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET LongMonthNames = 'January;February;March;April;May;June;July;August;September;October;November;December';
+SET DayNames = 'Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+SET LongDayNames = 'Monday;Tuesday;Wednesday;Thursday;Friday;Saturday;Sunday';
+
+
+//LET TimeZone() for EST server timezone
+LET localTimezone = 'Eastern Time (US & Canada)';
+SET vClientPrefix = 'CVS';
+SET vClientDomainName = 'cvs';
+LET vC_PUMA_Client_key = Lower('$(vClientPrefix)');
+
+IF vG_Environment = 'DEV' THEN
+    SET vAACatmanSchema = '$(vG_Environment)_$(vClientPrefix)_DB';
+ELSE
+    SET vAACatmanSchema = '$(vClientPrefix)_DB';
+END IF
+
+//1 for client who has Hub product, 0 for not
+SET vIsHeapHubData = 1;
+SET vIsAAUsageData = 1;
+SET vIsInsightsUsageData = 1;
+SET vC_loop_customgroup = 1;
+SET vIsPUMAData = 1;
+
+SET vC_loopreportqvwname = 'loop_field_1_desc_ref';
+SET vC_loop_fieldkey = 'selling_category_cd';
+SET vC_loop_fieldname = 'selling_category_reportname';
+SET vC_ProdMaster_LoopDeptCtrl = 'ri_cip_loop_cat_ctrl';
+SET vC_ProdMaster_VendorPlusCtrl = 'ri_vendor_plus_ctrl';

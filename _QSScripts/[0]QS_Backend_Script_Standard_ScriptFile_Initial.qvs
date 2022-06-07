@@ -17,6 +17,7 @@ trace --> get one variable from the settings qvs: vG_Environment = $(vG_Environm
 //-------------------------------------------------------------------------
 //let vG_ClientName = lower(subfield(documenttitle(),'_',-1)); //or override as hard code like 'lcl';
 //let vG_ClientFolder = if(vG_Environment = 'PROD' or vG_ClientName = 'Common', '', vG_ClientName & '\');
+//-------------------------------------------------------------------------
 
 LET vG_ClientName = Lower(Subfield(documenttitle(),'_',1));
 SET vG_UserInsightsAppFolder = 'lib://Pre_Suite_User_Insights';

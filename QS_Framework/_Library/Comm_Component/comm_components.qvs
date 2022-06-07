@@ -1,0 +1,41 @@
+LET vG_ReloadStart = Now(1);
+
+Trace ==> Start with comm_components.qvs <==;
+
+SET NullInterpret = NULL;
+LET vG_ClientName = Lower(SubField(Documenttitle(),'_',1));
+LET vG_ProductName = Lower(SubField(Documenttitle(),'_',4));
+LET vG_ClientFolder = If(Upper(vG_Environment) = 'PROD' or Capitalize(vG_ClientName) = 'Common'), '', Upper(vG_ClientName) & '\');
+LET vG_QVFDocumentName = SubField(Documenttitle(),'.',1);
+
+Trace ==> 1. Load QVD Paths & ODBC Info based on environment ($(vG_Environment)) and client ($(vG_ClientName)) <==;
+
+LET vG_SourceTable_QVDFolderLocation = 'lib://QSFramework\_clientconfig\qvdfolderlocation';
+
+QVDFolderLocation:
+Load
+    client,
+    location_#,
+    qvd_folder_location,
+    image_folder_location,
+    pdf_folder_location,
+    common_metadata
+From [$(vG_SourceTable_QVDFolderLocation)_$(vG_Environment).csv] (txt, utf8, embedded labels, delimiter is ',', msq)
+Where lower(client) = '$(vG_ClientName)'
+;
+
+Trace ==> 2. Load Sub Routine Function to Force Task Fail <==;
+
+SUB ForceTaskFail (vG_ErrorNum)
+    IF vG_ErrorNum = 0 THEN
+        //2.1 Force the task fail with no error if e.g. call ForceTaskFail(0) in the report load script
+        Trace ==> Message: Force task fail without error <==;
+        task fail without error;
+    ELSE
+        //2.2 Force the task fail with issue if e.g. call ForceTaskFail(1) in the report load script
+        Trace ==> Message: Force task fail with error <==;
+        task fail with issue above;
+    END IF
+END SUB
+
+Trace ==> End with comm_components.qvs <==;

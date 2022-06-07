@@ -1,0 +1,93 @@
+SET ThousandSep = ',';
+SET DecimalSep = '.';
+SET MoneyThousandSep = ',';
+SET MoneyDecimalSep = '.';
+SET MoneyFormat = '$#,##0.00;-$#,##0.00';
+SET TimeFormat = 'h:mm:ss TT';
+SET DateFormat = 'YYYY-MM-DD';
+SET TimestampFormat = 'YYYY-MM-DD h:mm:ss[.fff] TT';
+SET FirstWeekDay = 6;
+SET BrokenWeeks = 1;
+SET ReferenceDay = 0;
+SET FirstMonthOfYear = 1;
+SET CollationLocale = 'en-US';
+SET CreateSearchIndexOnReload = 1;
+SET MonthNames = 'Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET LongMonthNames = 'January;February;March;April;May;June;July;August;September;October;November;December';
+SET DayNames = 'Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+SET LongDayNames = 'Monday;Tuesday;Wednesday;Thursday;Friday;Saturday;Sunday';
+
+//========Tool Setup Parameters=================
+$(Must_Include=$(vG_AppScriptFolder)[3]QS_Backend_Script_Standard_ScriptFile_Parameters.qvs);
+//========Tool Source Tables====================
+$(Must_Include=$(vG_AppScriptFolder)[2]QS_Backend_Script_Standard_ScriptFile_SourceTables.qvs);
+//========Tool Sub==============================
+$(Must_Include=$(vG_AppScriptFolder)[0_1]QS_Backend_Script_Standard_ScriptFile_Data_Merge.qvs);
+$(Must_Include=$(vG_AppScriptFolder)[0_2]QS_Backend_Script_Standard_ScriptFile_SUB_Calendar.qvs);
+$(Must_Include=$(vG_AppScriptFolder)[0_3]QS_Backend_Script_Standard_ScriptFile_SUB_HideFields.qvs);
+
+//========Heap user info resident load from [0_1]QS_Backend_Script_Standard_ScriptFile_Data_Merge.qvs==========
+Users_Temp:
+Load
+    user_id as %user_id,
+    Lower(identity) as username,
+    Hash128(Lower(identity)) as %userkey,
+    Hash128(Lower(identity)) as user_account,
+    Trim(name) as [User_Full_Name],
+    Lower(Trim(email)) as [User_Email],
+    SubField(Lower(Trim(email)),'@',-1) as [Company],
+    platform_line as [Platform_Accessed],
+    ConvertToLocalTime(Round(joindate,1/86400),'$(localTimezone)') as [Date_First_Seen],
+    ConvertToLocalTime(Round(last_seen,1/86400),'$(localTimezone)') as [Date_Last_Login],
+    ConvertToLocalTime(Round(last_modified,1/86400),'$(localTimezone)') as [Date_Last_Modified]
+Resident base_users
+;
+
+Drop Table base_users;
+
+IF vIsPUMAData THEN
+    //==========PUMA users and groups load from api start==========
+    LIB CONNECT TO '$(vConnectionPUMA_REST)';
+
+    RestConnectorGetUsersfile:
+    SQL SELECT
+        "Client Name",
+        "First Name",
+        "Last Name",
+        "Email Address",
+        "User Name",
+        "Change Date",
+        "User Status",
+        "Ticket Number"
+        "Groups"
+    FROM CSV (header on, delimiter ",", quote """") "CSV_source"
+    WITH CONNECTION (
+      URL "$(vClientAuthPrecimaAPI)$(vAuthUsersExportEndpoint)"
+      );
+
+    [_Users_Export_PUMA2]:
+    Load
+        [Client Name],
+        [First Name],
+        [Last Name],
+        [Email Address],
+        [User Name],
+        [Change Date],
+        [User Status],
+        [Ticket Number],
+        [Group]
+    Resident RestConnectorGetUsersfile;
+
+    Drop Table RestConnectorGetUsersfile;
+
+    Right Join (Users_Temp)
+    Load
+        Lower(Trim([User Name])) as username,
+        Hash128(Lower([User Name])) as %userkey,
+        Lower(Trim([Email Address])) as user_email,
+        Capitalize(Trim([First Name])) & ' ' & Capitalize(Trim([Last Name])) as user_full_name,
+        Subfield([Group],',') as [_group_name_key]
+    Resident [_Users_Export_PUMA2]
+    ;
+ELSE
+END IF
